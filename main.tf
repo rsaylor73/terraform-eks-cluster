@@ -5,7 +5,7 @@ provider "aws" {
   region = var.region
 }
 
-# Filter out local zones, which are not currently supported 
+# Filter out local zones, which are not currently supported
 # with managed node groups
 data "aws_availability_zones" "available" {
   filter {
@@ -14,26 +14,17 @@ data "aws_availability_zones" "available" {
   }
 }
 
-locals {
-  cluster_name = "education-eks-${random_string.suffix.result}"
-}
-
-resource "random_string" "suffix" {
-  length  = 8
-  special = false
-}
-
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "5.8.1"
 
-  name = "education-vpc"
+  name = "${var.cluster_name}-vpc"
 
-  cidr = "10.0.0.0/16"
+  cidr = var.vpc_cidr
   azs  = slice(data.aws_availability_zones.available.names, 0, 3)
 
-  private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
-  public_subnets  = ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"]
+  private_subnets = [var.private_subnets_cidr1, var.private_subnets_cidr2, var.private_subnets_cidr3]
+  public_subnets  = [var.public_subnet_cidr1, var.public_subnet_cidr2, var.public_subnet_cidr3]
 
   enable_nat_gateway   = true
   single_nat_gateway   = true
@@ -50,10 +41,10 @@ module "vpc" {
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "20.8.5"
+  version = "20.31.6"
 
-  cluster_name    = local.cluster_name
-  cluster_version = "1.29"
+  cluster_name    = var.cluster_name
+  cluster_version = "1.32"
 
   cluster_endpoint_public_access           = true
   enable_cluster_creator_admin_permissions = true
@@ -74,29 +65,29 @@ module "eks" {
 
   eks_managed_node_groups = {
     one = {
-      name = "node-group-1"
+      name = var.node_group1_name
 
-      instance_types = ["t3.small"]
+      instance_types = [var.node_group1_instance_type]
 
-      min_size     = 1
-      max_size     = 3
-      desired_size = 2
+      min_size     = var.node_group1_min_size
+      max_size     = var.node_group1_max_size
+      desired_size = var.node_group1_desired_size
     }
 
     two = {
-      name = "node-group-2"
+      name = var.node_group2_name
 
-      instance_types = ["t3.small"]
+      instance_types = [var.node_group2_instance_type]
 
-      min_size     = 1
-      max_size     = 2
-      desired_size = 1
+      min_size     = var.node_group2_min_size
+      max_size     = var.node_group2_max_size
+      desired_size = var.node_group2_desired_size
     }
   }
 }
 
 
-# https://aws.amazon.com/blogs/containers/amazon-ebs-csi-driver-is-now-generally-available-in-amazon-eks-add-ons/ 
+# https://aws.amazon.com/blogs/containers/amazon-ebs-csi-driver-is-now-generally-available-in-amazon-eks-add-ons/
 data "aws_iam_policy" "ebs_csi_policy" {
   arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
 }
