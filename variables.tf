@@ -6,7 +6,7 @@ variable "AWS_SECRECT_KEY" {
   type = string
 }
 
-variable "region" {
+variable "AWS_REGION" {
   description = "AWS region"
   type        = string
   default     = "us-east-1"
