@@ -4,6 +4,12 @@ variable "region" {
   default     = "us-east-1"
 }
 
+variable "aws_profile" {
+  description = "AWS Profile in .aws/credentials"
+  type = string
+  default = "kodekloud"
+}
+
 variable "cluster_name" {
   type = string
   default = "demo-eks"

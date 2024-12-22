@@ -3,6 +3,7 @@
 
 provider "aws" {
   region = var.region
+  profile = var.aws_profile
 }
 
 # Filter out local zones, which are not currently supported
