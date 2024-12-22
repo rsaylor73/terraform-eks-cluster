@@ -13,7 +13,7 @@ output "cluster_security_group_id" {
 
 output "region" {
   description = "AWS region"
-  value       = var.region
+  value       = var.AWS_REGION
 }
 
 output "cluster_name" {
