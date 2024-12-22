@@ -7,7 +7,7 @@ variable "region" {
 variable "aws_profile" {
   description = "AWS Profile in .aws/credentials"
   type = string
-  default = "kodekloud"
+  default = "k8s_training"
 }
 
 variable "cluster_name" {
@@ -57,7 +57,7 @@ variable "node_group1_name" {
 
 variable "node_group1_instance_type" {
   type = string
-  default = "t3.small"
+  default = "t2.micro"
 }
 
 variable "node_group1_min_size" {
@@ -82,7 +82,7 @@ variable "node_group2_name" {
 
 variable "node_group2_instance_type" {
   type = string
-  default = "t3.small"
+  default = "t2.micro"
 }
 
 variable "node_group2_min_size" {
