@@ -1,6 +1,7 @@
-provider "aws" {
-  region = var.region
-  profile = var.aws_profile
+provider "aws"{
+  access_key = "${var.AWS_ACCESS_KEY}"
+  secret_key = "${var.AWS_SECRECT_KEY}"
+  region = "${var.AWS_REGION}"
 }
 
 # Filter out local zones, which are not currently supported
