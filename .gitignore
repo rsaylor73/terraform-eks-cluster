@@ -27,3 +27,4 @@ override.tf.json
 terraform.rc
 /.terraform.lock.hcl
 /terraform
+/kubectl
