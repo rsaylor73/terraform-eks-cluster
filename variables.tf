@@ -70,7 +70,7 @@ variable "node_group1_instance_type" {
 
 variable "node_group1_min_size" {
   type = string
-  default = "2"
+  default = "1"
 }
 
 variable "node_group1_max_size" {
@@ -95,7 +95,7 @@ variable "node_group2_instance_type" {
 
 variable "node_group2_min_size" {
   type = string
-  default = "2"
+  default = "1"
 }
 
 variable "node_group2_max_size" {
