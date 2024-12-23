@@ -7,3 +7,7 @@ spec:
     - name: app
       image: busybox
       command: [ "sh", "-c", "echo Hello Kubernetes! && sleep 3600" ]
+      resources:
+        requests:
+          memory: "64Mi"
+          cpu: "0.5"
